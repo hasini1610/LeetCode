@@ -1,31 +1,40 @@
 class Solution {
     public int myAtoi(String s) {
-        if(s==null) return 0;
         s=s.trim();
-        if(s.length()==0){
+        char arr[]=s.toCharArray();
+        if(arr.length==0){
             return 0;
         }
-        long ans=0;
-        int sign=+1;
-        int i=0;
-        int MAX= Integer.MAX_VALUE , MIN=Integer.MIN_VALUE;
-        if(s.charAt(0)=='-'){
-            sign=-1;
+        boolean isnegative=false;
+        int index=0;
+        if(arr[0]=='-'){
+            isnegative=true;
+            index++;
         }
-        if(s.charAt(i)=='-'||s.charAt(i)=='+') i=1;
-        while(i<s.length()){
-            if(s.charAt(i)==' '|| !Character.isDigit(s.charAt(i))){
+        else if(arr[0]=='+'){
+            index++;
+        }
+        long number=0;
+        for(int i=index;i<arr.length;i++){
+            if(arr[i]>='0' && arr[i]<='9'){
+            number=(number*10)+ (arr[i]-48);
+
+            if(!isnegative && number>Integer.MAX_VALUE){
+                return Integer.MAX_VALUE;
+            }
+            else if(isnegative && -number<Integer.MIN_VALUE){
+                return Integer.MIN_VALUE;
+            }
+            }
+            else{
                 break;
             }
-            ans=ans*10+s.charAt(i)-'0';
-            if(sign==-1 && ans*sign<MIN){
-                return MIN;
-            }
-            if(sign==1 && ans*sign>MAX){
-                return MAX;
-            }
-            i++;
         }
-        return (int)(ans*sign);
+        if(isnegative){
+            number*=-1;
+        }
+
+        return (int)number;
+
     }
 }
