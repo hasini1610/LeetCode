@@ -1,5 +1,6 @@
 class Solution {
     public int wave(String s){
+        if(s.length()<3) return 0;
         int cnt=0;
         for(int i=1;i<s.length()-2;i++){
             int m=s.charAt(i);
